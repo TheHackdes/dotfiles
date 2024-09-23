@@ -62,8 +62,11 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
-alias ls='ls --color'
-alias vim='nvim'
+alias ls='eza --icons'
+alias ll='ls -lah'
+alias vim='/home/rick/.local/bin/lvim'
+alias nvim='vim'
+alias v='vim'
 alias c='clear'
 
 # Use modern completion system
@@ -92,5 +95,6 @@ eval "$(zoxide init --cmd cd zsh)"
 #
 #zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 #zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
 
 

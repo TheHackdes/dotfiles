@@ -6,7 +6,7 @@ Install common package :
 
 ```bash
 apt install -y \
-curl figlet fonts-jetbrains-mono gcc git htop hyperfine i3-wm kitty ncdu neovim npm rofi stow wget zsh
+curl figlet fonts-jetbrains-mono gcc git htop hyperfine i3-wm kitty ncdu neovim npm rofi stow wget zsh feh arandr bat cargo eza
 ```
 
 Install JetBrains Nerd Font :
