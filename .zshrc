@@ -64,10 +64,11 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # Aliases
 alias ls='eza --icons'
 alias ll='ls -lah'
-alias vim='/home/rick/.local/bin/lvim'
+alias vim='$HOME/.local/bin/lvim'
 alias nvim='vim'
 alias v='vim'
 alias c='clear'
+alias bat='batcat'
 
 # Use modern completion system
 autoload -Uz compinit
