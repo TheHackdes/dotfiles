@@ -113,6 +113,8 @@ alias vi='nvim'
 alias vim='nvim'
 alias rm='trash-put'
 
+alias tmp='pushd $(mktemp -d)'
+
 alias lz='lazygit'
 
 
