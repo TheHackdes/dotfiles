@@ -114,3 +114,6 @@ alias vim='nvim'
 alias rm='trash-put'
 
 alias lz='lazygit'
+
+
+fastfetch --logo-width 25 --logo ~/.config/fastfetch/endeavouros.png
