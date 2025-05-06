@@ -1,16 +1,16 @@
 # Dotfiles
 
-Vous trouverez ici mes fichiers de configuration personnels créés uniquement pour optimiser mon travail en tant qu'administrateur système et réseau. Pas de transitions élégantes ou d'interface ergonomique, mais simplement des outils pour améliorer la productivité.
+Here you will find my personal configuration files created solely to optimize my work as a system and network administrator. No fancy transitions or ergonomic interface, just tools to improve productivity.
 
-## Prérequis
+## Prerequisites
 
-Avant de commencer, assurez-vous d'avoir installé l'outil suivant :
+Before starting, make sure you have installed the following tool:
 
 - [`stow`](https://www.gnu.org/software/stow/)
 
-## Cloner le projet
+## Clone the Project
 
-Pour cloner ce dépôt, exécutez les commandes suivantes dans votre terminal :
+To clone this repository, run the following commands in your terminal:
 
 ```bash
 cd ~
@@ -18,22 +18,22 @@ git clone https://github.com/TheHackdes/dotfiles
 cd dotfiles
 ```
 
-## Appliquer une configuration
+## Apply a Configuration
 
-Pour appliquer une configuration spécifique, utilisez la commande suivante. Par exemple, pour configurer `kitty`, exécutez la commande suivante dans le répertoire cloné :
+To apply a specific configuration, use the following command. For example, to configure `kitty`, run the following command in the cloned directory:
 
 ```bash
 stow kitty
 ```
 
-## Contribuer
+## Contribute
 
 1. Fork
-2. Crée ta branche : `git checkout -b feature/ma-fonction`
-3. Commit : `git commit -m "feat: ajoute une fonction"`
-4. Push : `git push origin feature/ma-fonction`
-5. Ouvre une Pull Request
+2. Create your branch: `git checkout -b feature/my-feature`
+3. Commit: `git commit -m "feat: add a feature"`
+4. Push: `git push origin feature/my-feature`
+5. Open a Pull Request
 
-## Auteur
+## Author
 
 - @TheHackdes

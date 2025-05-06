@@ -103,6 +103,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# printf "\e]66;s=3;MARS\a\n\n\n\n"
+
 eval "$(zoxide init zsh)"
 
 alias cd='z'
