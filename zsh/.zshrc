@@ -119,5 +119,24 @@ alias tmp='pushd $(mktemp -d)'
 
 alias lz='lazygit'
 
+alias sz='source ~/.zshrc'
 
 fastfetch --logo-width 25 --logo ~/.config/fastfetch/endeavouros.png
+
+### FONCTIONS ###
+
+debian() {
+  tmp_dir=$(mktemp -d)
+  chmod -R 777 ${tmp_dir}
+  if [ -z "$1" ]; then
+    deb_version='latest'
+  else
+    deb_version=$1
+  fi
+  echo "----------------------------------------"
+  printf "| %-14s | %-19s |\n" "TMP_DIR" "${tmp_dir}"
+  printf "| %-14s | %-19s |\n" "VERSION" "${deb_version}"
+  echo "----------------------------------------"
+
+  docker run --rm -ti -v ${tmp_dir}:/tmp debian:${deb_version}
+}
