@@ -109,7 +109,7 @@ eval "$(zoxide init zsh)"
 
 alias cd='z'
 
-alias ls='lsd -a'
+alias ls='lsd -lag -h --header'
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
@@ -159,6 +159,7 @@ debian() {
 
 check_and_install_packages() {
     local packages=(
+      # lazydocker (yay)
       curl
       docker
       docker-compose
@@ -172,6 +173,7 @@ check_and_install_packages() {
       lsd
       mosh
       mtr
+      ncdu
       neovim
       npm
       picom
@@ -185,7 +187,6 @@ check_and_install_packages() {
       wget
       zoxide
       zsh
-      # lazydocker (yay)
       )  # ✏️ Liste des paquets à vérifier/installer
     local missing=()
 
