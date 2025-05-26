@@ -140,3 +140,43 @@ debian() {
 
   docker run --rm -ti -v ${tmp_dir}:/tmp debian:${deb_version}
 }
+
+check_and_install_packages() {
+    local packages=(
+      mosh
+      curl
+      docker
+      docker-compose
+      fastfetch
+      fd
+      gimp
+      git
+      htop
+      ipcalc
+      lazygit
+      lsd
+      mtr
+      neovim
+      npm
+      picom
+      progress
+      timeshift
+      trash-cli
+      wget
+      zoxide
+      zsh
+      # lazydocker (yay)
+      )  # ✏️ Liste des paquets à vérifier/installer
+    local missing=()
+
+    for pkg in "${packages[@]}"; do
+        pacman -Q "$pkg" &>/dev/null || missing+=("$pkg")
+    done
+
+    if [[ ${#missing[@]} -gt 0 ]]; then
+        echo "📦 Installation des paquets manquants: ${missing[*]}"
+        sudo pacman -Sy --noconfirm "${missing[@]}"
+    fi
+}
+
+check_and_install_packages
