@@ -143,7 +143,6 @@ debian() {
 
 check_and_install_packages() {
     local packages=(
-      mosh
       curl
       docker
       docker-compose
@@ -155,13 +154,17 @@ check_and_install_packages() {
       ipcalc
       lazygit
       lsd
+      mosh
       mtr
       neovim
       npm
       picom
       progress
+      python-pipx
+      qbittorrent
       timeshift
       trash-cli
+      uv
       wget
       zoxide
       zsh
