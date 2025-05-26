@@ -118,12 +118,28 @@ alias rm='trash-put'
 alias tmp='pushd $(mktemp -d)'
 
 alias lz='lazygit'
+alias lzd='lazydocker'
 
 alias sz='source ~/.zshrc'
 
 fastfetch --logo-width 25 --logo ~/.config/fastfetch/endeavouros.png
 
 ### FONCTIONS ###
+arch() {
+  tmp_dir=$(mktemp -d)
+  chmod -R 777 ${tmp_dir}
+  if [ -z "$1" ]; then
+    arch_version='latest'
+  else
+    arch_version=$1
+  fi
+  echo "----------------------------------------"
+  printf "| %-14s | %-19s |\n" "TMP_DIR" "${tmp_dir}"
+  printf "| %-14s | %-19s |\n" "VERSION" "${arch_version}"
+  echo "----------------------------------------"
+
+  docker run --rm -ti -v ${tmp_dir}:/tmp archlinux:${arch_version}
+}
 
 debian() {
   tmp_dir=$(mktemp -d)
@@ -162,6 +178,7 @@ check_and_install_packages() {
       progress
       python-pipx
       qbittorrent
+      thefuck
       timeshift
       trash-cli
       uv
@@ -183,3 +200,31 @@ check_and_install_packages() {
 }
 
 check_and_install_packages
+
+fuck () {
+    TF_PYTHONIOENCODING=$PYTHONIOENCODING;
+    export TF_SHELL=zsh;
+    export TF_ALIAS=fuck;
+    TF_SHELL_ALIASES=$(alias);
+    export TF_SHELL_ALIASES;
+    TF_HISTORY="$(fc -ln -10)";
+    export TF_HISTORY;
+    export PYTHONIOENCODING=utf-8;
+    TF_CMD=$(
+        thefuck THEFUCK_ARGUMENT_PLACEHOLDER $@
+    ) && eval $TF_CMD;
+    unset TF_HISTORY;
+    export PYTHONIOENCODING=$TF_PYTHONIOENCODING;
+    test -n "$TF_CMD" && print -s $TF_CMD
+}
+
+
+stream_on() {
+  alias kitty='kitty --config ~/.config/kitty/kitty_stream.conf'
+}
+
+stream_off() {
+  unalias kitty
+}
+
+
