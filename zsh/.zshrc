@@ -114,6 +114,7 @@ alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
 alias rm='trash-put'
+alias ssh='mosh'
 
 alias tmp='pushd $(mktemp -d)'
 
