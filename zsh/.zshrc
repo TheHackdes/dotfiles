@@ -176,6 +176,7 @@ check_and_install_packages() {
       mtr
       ncdu
       neovim
+      nextcloud-client
       npm
       obsidian
       picom
@@ -199,6 +200,12 @@ check_and_install_packages() {
     if [[ ${#missing[@]} -gt 0 ]]; then
         echo "📦 Installation des paquets manquants: ${missing[*]}"
         sudo pacman -Sy --noconfirm "${missing[@]}"
+    fi
+
+    if ! command -v mise &> /dev/null
+    then
+        echo "📦 Installation de mise..."
+        curl https://mise.run | sh
     fi
 }
 
@@ -231,3 +238,4 @@ stream_off() {
 }
 
 
+eval "$(/home/gdenis/.local/bin/mise activate zsh)"
