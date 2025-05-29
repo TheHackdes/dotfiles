@@ -177,6 +177,7 @@ check_and_install_packages() {
       ncdu
       neovim
       npm
+      obsidian
       picom
       progress
       python-pipx
