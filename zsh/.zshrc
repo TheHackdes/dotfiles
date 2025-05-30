@@ -120,6 +120,8 @@ alias tmp='pushd $(mktemp -d)'
 
 alias lz='lazygit'
 alias lzd='lazydocker'
+alias pdf='firefox http://127.0.0.1:8080 && docker run --rm -p 8080:8080 -ti stirlingtools/stirling-pdf'
+
 
 alias sz='source ~/.zshrc'
 
@@ -158,6 +160,8 @@ debian() {
   docker run --rm -ti -v ${tmp_dir}:/tmp debian:${deb_version}
 }
 
+eval "$(${HOME}/.local/bin/mise activate zsh)"
+
 check_and_install_packages() {
     local packages=(
       # lazydocker (yay)
@@ -179,10 +183,12 @@ check_and_install_packages() {
       nextcloud-client
       npm
       obsidian
+      ollama
       picom
       progress
       python-pipx
       qbittorrent
+      qutebrowser
       thefuck
       timeshift
       trash-cli
@@ -197,10 +203,21 @@ check_and_install_packages() {
         pacman -Q "$pkg" &>/dev/null || missing+=("$pkg")
     done
 
+ #   if [[ ${#missing[@]} -gt 0 ]]; then
+ #       echo "📦 Installation des paquets manquants: ${missing[*]}"
+ #       sudo pacman -Sy --noconfirm "${missing[@]}"
+ #   fi
+
     if [[ ${#missing[@]} -gt 0 ]]; then
-        echo "📦 Installation des paquets manquants: ${missing[*]}"
-        sudo pacman -Sy --noconfirm "${missing[@]}"
-    fi
+      echo "📦 Installation des paquets manquants: ${missing[*]}"
+      
+      if command -v sudo &>/dev/null; then
+          sudo pacman -Sy --noconfirm "${missing[@]}"
+      else
+          echo "⚠️ sudo n'est pas installé, tentative d'installation sans sudo..."
+          pacman -Sy --noconfirm "${missing[@]}"
+      fi
+   fi
 
     if ! command -v mise &> /dev/null
     then
@@ -238,4 +255,3 @@ stream_off() {
 }
 
 
-eval "$(/home/gdenis/.local/bin/mise activate zsh)"
