@@ -6,7 +6,9 @@ Here you will find my personal configuration files created solely to optimize my
 
 Before starting, make sure you have installed the following tool:
 
-- [`stow`](https://www.gnu.org/software/stow/)
+```bash
+sudo pacman -Sy git stow zsh
+```
 
 ## Clone the Project
 

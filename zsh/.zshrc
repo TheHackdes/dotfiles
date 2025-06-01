@@ -129,36 +129,47 @@ fastfetch --logo-width 25 --logo ~/.config/fastfetch/endeavouros.png
 
 ### FONCTIONS ###
 arch() {
+  VERSION="${1:-latest}"
+  IMAGE_NAME="arch-perso:$VERSION"
+
   tmp_dir=$(mktemp -d)
   chmod -R 777 ${tmp_dir}
-  if [ -z "$1" ]; then
-    arch_version='latest'
-  else
-    arch_version=$1
-  fi
+
   echo "----------------------------------------"
   printf "| %-14s | %-19s |\n" "TMP_DIR" "${tmp_dir}"
-  printf "| %-14s | %-19s |\n" "VERSION" "${arch_version}"
+  printf "| %-14s | %-19s |\n" "VERSION" "${1:-latest}"
   echo "----------------------------------------"
 
-  docker run --rm -ti -v ${tmp_dir}:/tmp archlinux:${arch_version}
+  docker buildx build \
+    --build-arg VERSION="$VERSION" \
+    --tag "$IMAGE_NAME" \
+    --load \
+    ~/.local/scripts/docker/arch/ > /dev/null
+
+  docker run -it --rm --name arch --hostname arch -v ${tmp_dir}:/tmp "$IMAGE_NAME"
 }
 
 debian() {
+  VERSION="${1:-latest}"
+  IMAGE_NAME="debian-perso:$VERSION"
+
   tmp_dir=$(mktemp -d)
   chmod -R 777 ${tmp_dir}
-  if [ -z "$1" ]; then
-    deb_version='latest'
-  else
-    deb_version=$1
-  fi
+
   echo "----------------------------------------"
   printf "| %-14s | %-19s |\n" "TMP_DIR" "${tmp_dir}"
-  printf "| %-14s | %-19s |\n" "VERSION" "${deb_version}"
+  printf "| %-14s | %-19s |\n" "VERSION" "${1:-latest}"
   echo "----------------------------------------"
 
-  docker run --rm -ti -v ${tmp_dir}:/tmp debian:${deb_version}
+  docker buildx build \
+    --build-arg VERSION="$VERSION" \
+    --tag "$IMAGE_NAME" \
+    --load \
+    ~/.local/scripts/docker/debian/ > /dev/null
+
+  docker run -it --rm --name debian --hostname debian -v ${tmp_dir}:/tmp "$IMAGE_NAME"
 }
+
 
 eval "$(${HOME}/.local/bin/mise activate zsh)"
 
@@ -167,6 +178,7 @@ check_and_install_packages() {
       # lazydocker (yay)
       curl
       docker
+      docker-buildx
       docker-compose
       fastfetch
       fd
@@ -203,11 +215,7 @@ check_and_install_packages() {
         pacman -Q "$pkg" &>/dev/null || missing+=("$pkg")
     done
 
- #   if [[ ${#missing[@]} -gt 0 ]]; then
- #       echo "📦 Installation des paquets manquants: ${missing[*]}"
- #       sudo pacman -Sy --noconfirm "${missing[@]}"
- #   fi
-
+    # Install missing packages
     if [[ ${#missing[@]} -gt 0 ]]; then
       echo "📦 Installation des paquets manquants: ${missing[*]}"
       
@@ -219,11 +227,19 @@ check_and_install_packages() {
       fi
    fi
 
-    if ! command -v mise &> /dev/null
-    then
-        echo "📦 Installation de mise..."
-        curl https://mise.run | sh
-    fi
+   # Check if mise is installed
+   if ! command -v mise &> /dev/null
+   then
+       echo "📦 Installation de mise..."
+       curl https://mise.run | sh
+   fi
+
+   # Check if Oh My Zsh is installed
+   if [ ! -d "$HOME/.oh-my-zsh" ]; then
+       echo "Oh My Zsh is not installed. Installing now..."
+       sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+       echo "Oh My Zsh installation complete."
+   fi
 }
 
 check_and_install_packages
