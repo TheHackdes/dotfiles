@@ -167,9 +167,8 @@ debian() {
     --load \
     ~/.local/scripts/docker/debian/ > /dev/null
 
-  docker run -it --rm --name debian --hostname debian -v ${tmp_dir}:/tmp "$IMAGE_NAME"
+  docker run -it --rm --name debian --hostname debian --network host -v ${tmp_dir}:/tmp "$IMAGE_NAME"
 }
-
 
 eval "$(${HOME}/.local/bin/mise activate zsh)"
 
@@ -196,6 +195,7 @@ check_and_install_packages() {
       npm
       obsidian
       ollama
+      pastel
       picom
       progress
       python-pipx
@@ -205,6 +205,8 @@ check_and_install_packages() {
       timeshift
       trash-cli
       uv
+      virtualbox
+      virtualbox-host-modules-arch
       wget
       zoxide
       zsh
@@ -243,6 +245,53 @@ check_and_install_packages() {
 }
 
 check_and_install_packages
+
+
+generate_vms() {
+  local image_type=$1
+  local count=$2
+  local base_dir="vagrant_vms"
+
+  if [[ -z "$image_type" || -z "$count" || "$count" -lt 1 ]]; then
+    echo "Usage: generate_vms <debian|proxmox> <number_of_vms>"
+    return 1
+  fi
+
+  # Choix de la box selon le type demandé
+  case "$image_type" in
+    debian)
+      box_name="debian/bookworm64"
+      ;;
+    proxmox)
+      box_name="clincha/proxmox-ve-8"
+      ;;
+    *)
+      echo "Image inconnue : $image_type"
+      echo "Images supportées : debian, proxmox"
+      return 1
+      ;;
+  esac
+
+  mkdir -p "$base_dir"
+  cd "$base_dir" || return 1
+
+  for i in $(seq 1 "$count"); do
+    vm_dir="${image_type}_vm$i"
+    mkdir -p "$vm_dir"
+    cd "$vm_dir" || continue
+
+    cat > Vagrantfile <<EOF
+Vagrant.configure("2") do |config|
+  config.vm.box = "$box_name"
+  config.vm.hostname = "${image_type}-vm$i"
+  config.vm.network "private_network", ip: "192.168.56.$((100 + i))"
+end
+EOF
+
+    vagrant up
+    cd ..
+  done
+}
 
 fuck () {
     TF_PYTHONIOENCODING=$PYTHONIOENCODING;
