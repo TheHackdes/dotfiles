@@ -25,7 +25,9 @@ cd dotfiles
 To apply a specific configuration, use the following command. For example, to configure `kitty`, run the following command in the cloned directory:
 
 ```bash
-stow kitty stow nvim fastfetch i3
+pacman -Syu
+stow kitty nvim fastfetch i3 zsh
+zsh
 ```
 
 ## Contribute
